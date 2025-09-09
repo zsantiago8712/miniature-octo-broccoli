@@ -1,6 +1,6 @@
 import type { inferProcedureOutput } from "@trpc/server";
-import type { AppRouter } from "../../../server/src/routers";
+import type { PokemonsRouter } from "../../../server/src/routers/pokemons_router";
 
-export type Pokemon = inferProcedureOutput<
-    AppRouter["getPokemos"]
+export type PokemonResponse = inferProcedureOutput<
+    PokemonsRouter["getPokemos"]
 >["pokemons"][number];

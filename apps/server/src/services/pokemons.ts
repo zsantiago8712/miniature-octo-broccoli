@@ -1,7 +1,7 @@
 import axios from "axios";
 import pLimit from "p-limit";
 
-import type { Pokemon } from "@/types/pokemons";
+import type { Pokemon } from "../types/pokemons";
 
 export async function getAllPokemons(
     limit: number,

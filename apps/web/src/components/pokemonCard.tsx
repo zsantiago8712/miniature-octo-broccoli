@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Pokemon } from "@/types/pokemons";
+import type { PokemonResponse } from "@/types/pokemons";
 
 interface PokemonCardProps {
-    pokemon: Pokemon;
+    pokemon: PokemonResponse;
 }
 
 export function PokemonCard({ pokemon }: PokemonCardProps) {
