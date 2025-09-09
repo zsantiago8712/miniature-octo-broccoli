@@ -11,6 +11,14 @@ export const pokemonRouter = router({
         return "OK";
     }),
 
+    cors_test: publicProcedure.query(() => {
+        const cors = process.env.CORS_ORIGIN;
+        if (!cors) {
+            return "not found"
+        }
+        return cors;
+    }),
+
     getPokemos: publicProcedure.query(async () => {
         const limit = 1000;
         const offset = 0;
