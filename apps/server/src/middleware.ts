@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
 
-    const cors_origin = process.env.CORS_ORIGIN || 'http://localhost:3001';
-    console.log(cors_origin);
+    const cors_origin = process.env.CORS_ORIGIN || 'http://localhost:3020';
+    console.warn(cors_origin);
 
 
     // Handle preflight requests
