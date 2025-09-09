@@ -1,46 +1,32 @@
-"use client"
-import { useQuery } from "@tanstack/react-query";
-import { trpc } from "@/utils/trpc";
-
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
+"use client";
+import { PokemonCard } from "@/components/pokemonCard";
+import { getPokemons } from "@/hooks/usePokemons";
 
 export default function Home() {
-  const healthCheck = useQuery(trpc.healthCheck.queryOptions());
-  
-  return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2 font-medium">API Status</h2>
-            <div className="flex items-center gap-2">
-              <div
-                className={`h-2 w-2 rounded-full ${healthCheck.data ? "bg-green-500" : "bg-red-500"}`}
-              />
-              <span className="text-sm text-muted-foreground">
-                {healthCheck.isLoading
-                  ? "Checking..."
-                  : healthCheck.data
-                    ? "Connected"
-                    : "Disconnected"}
-              </span>
+    const { data, isLoading, error } = getPokemons();
+
+    if (error) return <div>Error: {error.message}</div>;
+
+    if (isLoading) return <div>Loading...</div>;
+
+    return (
+        <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 py-8">
+                <header className="mb-8 text-center">
+                    <h1 className="mb-2 font-bold text-4xl text-foreground">Pokédex</h1>
+                    <p className="text-muted-foreground">
+                        Explora la colección de pokémons
+                    </p>
+                </header>
+
+                {data && data.pokemons.length > 0 && (
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {data.pokemons.map((pokemon) => (
+                            <PokemonCard key={pokemon.name} pokemon={pokemon} />
+                        ))}
+                    </div>
+                )}
             </div>
-        </section>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
